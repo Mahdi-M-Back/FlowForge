@@ -5,7 +5,7 @@ const envSchema = z.object({
 
   PORT: z.coerce.number().int().positive(),
 
-  DATABASE: z.url().startsWith("postgres"),
+  DATABASE_URL: z.url().startsWith("postgres"),
 
   JWT_SECRET: z.string().min(32),
 });
@@ -14,9 +14,7 @@ const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
   console.error("❌ Invalid environment variables.");
-  console.error(
-  JSON.stringify(parsedEnv.error.format(), null, 2)
-);
+  console.error(JSON.stringify(parsedEnv.error.format(), null, 2));
 
   process.exit(1);
 }
@@ -30,8 +28,8 @@ export const env = {
     port: parsedEnv.data.PORT,
   },
 
-  database: {
-    url: parsedEnv.data.DATABASE,
+  db: {
+    url: parsedEnv.data.DATABASE_URL,
   },
 
   jwt: {
