@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "format": "prettier --write .",
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
+    "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "start": "node dist/server.js"
+    "migrate:up": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down",
+    "migrate:create": "node-pg-migrate create --migration-file-language ts"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +32,8 @@
     "@types/node": "^26.1.0",
     "@types/pg": "^8.20.0",
     "eslint": "^10.6.0",
+    "eslint-config-prettier": "^10.1.8",
+    "node-pg-migrate": "^8.0.4",
     "prettier": "^3.9.4",
     "tsx": "^4.23.0",
     "typescript": "^6.0.3"
