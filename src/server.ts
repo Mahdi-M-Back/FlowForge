@@ -1,18 +1,17 @@
 import "dotenv/config";
-
-import app from './app.js';
+import app from "./app.js";
 import { env } from "./config/env.js";
-import { createDatabase } from "./config/database.js";
+import { connectToDB } from "./config/database.js";
 
+async function bootstrap() {
+  await connectToDB();
 
-try{
-  await createDatabase(env.database.url)
-  const PORT = env.server.port || 3000;
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}..🚀`)
+  app.listen(env.server.port, () => {
+    console.log(`Server running on ${env.server.port}`);
   });
-}catch(err){
-  console.error(err)
-  process.exit(1)
-};
+}
 
+bootstrap().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
