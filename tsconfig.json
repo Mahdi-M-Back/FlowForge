@@ -4,7 +4,10 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
-
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "NodeNext",
@@ -38,5 +41,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+    "ignoreDeprecations": "6.0"
   }
 }
