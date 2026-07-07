@@ -35,7 +35,6 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
 
     updated_at: {
       type: "timestamptz",
-      default: pgm.func("now()"),
     },
 
     deleted_at: {
