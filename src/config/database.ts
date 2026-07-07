@@ -1,17 +1,19 @@
 import { Pool } from "pg";
+import { env } from "./env.js";
 
-export async function createDatabase(connectionString: string) {
-  const pool = new Pool({
-    connectionString,
-  });
+const pool = new Pool({
+  connectionString: env.db.url,
+});
 
+export async function connectToDB() {
   try {
     await pool.query("SELECT 1");
+    console.log("✅ Database connected.");
   } catch (error) {
     throw new Error("Failed to initialize database connection.", {
       cause: error,
     });
   }
-
-  return pool;
 }
+
+export default pool;
