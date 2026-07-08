@@ -1,5 +1,5 @@
 import repository from "./repository.js";
-import { registerSchema } from "./schema.js";
+import { loginSchema, registerSchema } from "./schema.js";
 import bcrypt from "bcrypt";
 
 async function create(data: unknown) {
@@ -11,6 +11,25 @@ async function create(data: unknown) {
   return user;
 }
 
+async function login(data: unknown) {
+  const validated = loginSchema.parse(data);
+
+  const user = await repository.find(validated.email);
+
+  if (!user) {
+    return false;
+  }
+
+  const confirmPass = await bcrypt.compare(validated.password, user.password);
+
+  if (!confirmPass) {
+    return false;
+  }
+
+  return true;
+}
+
 export default {
   create,
+  login,
 };
