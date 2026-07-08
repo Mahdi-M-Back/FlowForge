@@ -4,6 +4,10 @@ import bcrypt from "bcrypt";
 
 async function create(data: unknown) {
   const validated = registerSchema.parse(data);
+  const existingUser = await repository.findByEmail(validated.email);
+  if (existingUser) {
+    return false;
+  }
   const password = await bcrypt.hash(validated.password, 12);
   validated.password = password;
   const user = await repository.create(validated);
