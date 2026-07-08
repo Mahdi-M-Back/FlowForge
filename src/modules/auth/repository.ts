@@ -15,7 +15,7 @@ async function create(data: RegisterDto) {
   return result;
 }
 
-async function find(email: string) {
+async function findByEmail(email: string) {
   const result = await pool.query(
     `
     SELECT *
@@ -30,5 +30,5 @@ async function find(email: string) {
 
 export default {
   create,
-  find,
+  findByEmail,
 };

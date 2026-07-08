@@ -14,7 +14,7 @@ async function create(data: unknown) {
 async function login(data: unknown) {
   const validated = loginSchema.parse(data);
 
-  const user = await repository.find(validated.email);
+  const user = await repository.findByEmail(validated.email);
 
   if (!user) {
     return false;
