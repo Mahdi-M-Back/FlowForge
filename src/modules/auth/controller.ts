@@ -45,3 +45,25 @@ export async function logout(req: Request, res: Response) {
     data: "Logged out successfully.",
   });
 }
+
+export async function refreshToken(req: Request, res: Response) {
+  const refreshToken = req.cookies?.refreshToken;
+  if (!refreshToken) {
+    return res.status(401).json({
+      status: "faild",
+      data: "Refresh token not found.",
+    });
+  }
+  const tokens = await service.refreshToken(refreshToken);
+  if (!tokens) {
+    return res.status(401).json({
+      status: "faild",
+      data: "Invalid refresh token.",
+    });
+  }
+
+  return res.status(200).json({
+    status: "success",
+    data: tokens,
+  });
+}
