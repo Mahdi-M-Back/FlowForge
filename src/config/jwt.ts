@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { env } from "./env.js";
 
-
 const accessToken = (userId: string) => {
   const expiresIn = env.jwt.accessTokenExpiresIn;
   return jwt.sign({ userId }, env.jwt.accessTokenSecret, { expiresIn });
@@ -10,10 +9,9 @@ const accessToken = (userId: string) => {
 const refreshToken = (userId: string) => {
   const expiresIn = env.jwt.refreshTokenExpiresIn;
   return jwt.sign({ userId }, env.jwt.refreshTokenSecret, { expiresIn });
-}
+};
 
-
-export function generateTokens(userId: string, res: any) {
+function generateTokens(userId: string, res: any) {
   const access = accessToken(userId);
   const refresh = refreshToken(userId);
 
@@ -24,5 +22,14 @@ export function generateTokens(userId: string, res: any) {
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in ms
   });
 
+  return { access , refresh };
+}
+function generateAccessTokens(userId: string) {
+  const access = accessToken(userId);
   return { access };
 }
+
+export default {
+  generateTokens,
+  generateAccessTokens,
+};
