@@ -32,3 +32,16 @@ export async function login(req: Request, res: Response) {
     data: user,
   });
 }
+
+export async function logout(req: Request, res: Response) {
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+
+  return res.status(200).json({
+    status: "success",
+    data: "Logged out successfully.",
+  });
+}
