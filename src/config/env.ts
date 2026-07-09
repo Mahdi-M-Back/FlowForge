@@ -7,7 +7,10 @@ const envSchema = z.object({
 
   DATABASE_URL: z.url().startsWith("postgres"),
 
-  JWT_SECRET: z.string().min(32),
+  JWT_SECRET_ACCESS: z.string().min(24),
+  JWT_SECRET_REFRESH: z.string().min(32),
+  JWT_SECRET_ACCESS_EXPIRES_IN: z.string().default("4h"),
+  JWT_SECRET_REFRESH_EXPIRES_IN: z.string().default("30d"),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -33,7 +36,10 @@ export const env = {
   },
 
   jwt: {
-    secret: parsedEnv.data.JWT_SECRET,
+    accessTokenSecret: parsedEnv.data.JWT_SECRET_ACCESS,
+    refreshTokenSecret: parsedEnv.data.JWT_SECRET_REFRESH,
+    accessTokenExpiresIn: parsedEnv.data.JWT_SECRET_ACCESS_EXPIRES_IN,
+    refreshTokenExpiresIn: parsedEnv.data.JWT_SECRET_REFRESH_EXPIRES_IN,
   },
 } as const;
 
