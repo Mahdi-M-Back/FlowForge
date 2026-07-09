@@ -14,7 +14,7 @@ export async function signup(req: Request, res: Response) {
 
   return res.status(201).json({
     status: "success",
-    data: user.rows[0],
+    data: user,
   });
 }
 

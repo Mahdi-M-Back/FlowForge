@@ -12,7 +12,7 @@ async function create(data: RegisterDto) {
     [data.name, data.email, data.password],
   );
 
-  return result;
+  return result.rows[0];
 }
 
 async function findByEmail(email: string) {
