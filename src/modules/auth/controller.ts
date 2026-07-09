@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 
 import service from "./service.js";
+import { any } from "zod";
 
 export async function signup(req: Request, res: Response) {
   const user = await service.create(req.body);
@@ -19,7 +20,7 @@ export async function signup(req: Request, res: Response) {
 }
 
 export async function login(req: Request, res: Response) {
-  const user = await service.login(req.body);
+  const user = await service.login(req.body, res);
   if (!user) {
     return res.status(404).json({
       status: "faild",
@@ -28,6 +29,6 @@ export async function login(req: Request, res: Response) {
   }
   return res.status(200).json({
     status: "success",
-    data: "You are loggedin successfuly.",
+    data: user,
   });
 }
