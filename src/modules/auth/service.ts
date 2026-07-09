@@ -1,4 +1,4 @@
-import { generateTokens } from "@/config/jwt.js";
+import jwt from "@/config/jwt.js";
 import repository from "./repository.js";
 import { loginSchema, registerSchema } from "./schema.js";
 import bcrypt from "bcrypt";
@@ -28,13 +28,29 @@ async function login(data: unknown, res: Response) {
   if (!confirmPass) {
     return false;
   }
+  user.password = undefined;
+  const tokens = await jwt.generateTokens(user.id, res);
+  const accessToken = tokens.access;
+  const refreshToken = tokens.refresh;
+  await repository.updateRefreshToken(user.id, refreshToken);
+  console.log(await repository.findByEmail(validated.email));
 
-  const tokens = await generateTokens(user.id, res);
+  return { user, accessToken };
+}
 
-  return {user, tokens};
+async function refreshToken(refreshToken: string) {
+  const user = await repository.findByRefreshToken(refreshToken);
+  if (!user) {
+    return false;
+  }
+
+  const tokens = await jwt.generateAccessTokens(user.id);
+
+  return tokens;
 }
 
 export default {
   create,
   login,
+  refreshToken,
 };
