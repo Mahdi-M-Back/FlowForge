@@ -49,8 +49,22 @@ async function findByRefreshToken(refreshToken: string) {
   return result.rows[0] ?? null;
 }
 
+async function updateRefreshToken(userId: string, refreshToken: string) {
+  const result = await pool.query(
+    `
+    UPDATE users
+    SET refresh_token = $1
+    WHERE id = $2
+    `,
+    [refreshToken, userId],
+  );
+  return result.rows[0] ?? null;
+}
+
+
 export default {
   create,
   findByEmail,
   findByRefreshToken,
+  updateRefreshToken,
 };
