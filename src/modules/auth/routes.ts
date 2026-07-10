@@ -10,6 +10,7 @@ router.post("/refresh-token", controller.refreshToken);
 
 router.use(verify.protect);
 
+router.route("/me").patch(controller.updateMe);
 router.post("/logout", controller.logout);
 
 export default router;
