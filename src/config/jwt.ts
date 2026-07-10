@@ -57,9 +57,21 @@ function protect(req: any, res: any, next: any) {
   next();
 }
 
+function restrictTo(...roles: string[]) {
+  return (req: any, res: any, next: any) => {
+    if (!roles.includes(req.userRole)) {
+      return res.status(403).json({
+        status: "faild",
+        data: "You are not authorized to perform this action.",
+      });
+    }
+    next();
+  };
+}
 
 export default {
   generateTokens,
   generateAccessTokens,
   protect,
+  restrictTo,
 };
