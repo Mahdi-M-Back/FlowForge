@@ -1,11 +1,15 @@
 import { Router } from "express";
 import * as controller from "./controller.js";
+import  verify  from "@/config/jwt.js";
 
 const router = Router();
 
 router.post("/signup", controller.signup);
 router.post("/login", controller.login);
-router.post("/logout", controller.logout);
 router.post("/refresh-token", controller.refreshToken);
+
+router.use(verify.protect);
+
+router.post("/logout", controller.logout);
 
 export default router;
