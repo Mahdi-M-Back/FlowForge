@@ -33,7 +33,6 @@ async function login(data: unknown, res: Response) {
   const accessToken = tokens.access;
   const refreshToken = tokens.refresh;
   await repository.updateRefreshToken(user.id, refreshToken);
-  console.log(await repository.findByEmail(validated.email));
 
   return { user, accessToken };
 }
@@ -44,13 +43,23 @@ async function refreshToken(refreshToken: string) {
     return false;
   }
 
-  const tokens = await jwt.generateAccessTokens(user.id);
+  const tokens = await jwt.generateAccessTokens(user.id,refreshToken);
 
   return tokens;
+}
+
+async function update(data:object) {
+  const updatedUser = await repository.update(data);
+  if (!updatedUser) {
+    return false;
+  }
+  return updatedUser;
+
 }
 
 export default {
   create,
   login,
   refreshToken,
+  update,
 };
