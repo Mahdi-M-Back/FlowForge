@@ -55,6 +55,13 @@ async function update(name:string, userId:string) {
   }
   return updatedUser;
 }
+async function getMe(userId: string){
+  const user = await repository.getMe(userId);
+  if (!user) {
+    return false;
+  }
+  return user;
+}
 
 
 export default {
@@ -62,4 +69,5 @@ export default {
   login,
   refreshToken,
   update,
+  getMe
 };
