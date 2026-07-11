@@ -68,18 +68,33 @@ export async function refreshToken(req: Request, res: Response) {
   });
 }
 
-export async function updateMe(req:Request,res:Response) {
-  const update = await service.update(req.body.name,req.userId);
+export async function updateMe(req: Request, res: Response) {
+  const update = await service.update(req.body.name, req.userId);
   if (!update) {
     return res.status(404).json({
-      status:"Fail",
-      data:"The updated going to fail. Try again later.!"
-    })
+      status: "Fail",
+      data: "The updated going to fail. Try again later.!",
+    });
   }
 
   return res.status(201).json({
-    status:"Success",
-    data:update
-  })
-
+    status: "Success",
+    data: update,
+  });
 }
+
+export async function getMe(req: Request, res: Response) {
+  const user = await service.getMe(req.userId);
+  if (!user) {
+    return res.status(404).json({
+      status: "Fail",
+      data: "User not found.!",
+    });
+  }
+
+  return res.status(200).json({
+    status: "Success",
+    data: user,
+  });
+}
+
