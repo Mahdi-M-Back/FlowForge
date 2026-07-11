@@ -104,4 +104,5 @@ export default {
   findByRefreshToken,
   updateRefreshToken,
   update,
+  getMe,
 };
