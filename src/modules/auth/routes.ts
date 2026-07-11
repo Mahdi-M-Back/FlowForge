@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as controller from "./controller.js";
-import  verify  from "@/config/jwt.js";
+import verify from "@/config/jwt.js";
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.post("/refresh-token", controller.refreshToken);
 
 router.use(verify.protect);
 
-router.route("/me").patch(controller.updateMe);
+router.route("/me").patch(controller.updateMe).get(controller.getMe);
 router.post("/logout", controller.logout);
 
 export default router;
