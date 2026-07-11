@@ -98,3 +98,17 @@ export async function getMe(req: Request, res: Response) {
   });
 }
 
+export async function deleteMe(req: Request, res: Response) {
+  const deleted = await service.deleteMe(req.userId);
+  if (!deleted) {
+    return res.status(404).json({
+      status: "Fail",
+      data: "User not found.!",
+    });
+  }
+
+  return res.status(200).json({
+    status: "Success",
+    data: deleted,
+  });
+}
