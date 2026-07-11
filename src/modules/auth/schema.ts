@@ -23,5 +23,16 @@ export const loginSchema = z.object({
     .max(72, "Password must be at most 72 characters."),
 });
 
+export const updateMe = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters.")
+    .max(100, "Name must be at most 100 characters."),
+
+});
+
+
 export type RegisterDto = z.infer<typeof registerSchema>;
 export type LoginDto = z.infer<typeof loginSchema>;
+export type UpdateMeDto = z.infer<typeof updateMe>;
