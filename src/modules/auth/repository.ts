@@ -98,6 +98,21 @@ async function getMe(id: string) {
   return result.rows[0] ?? null;
 }
 
+async function deleteMe(id:string){
+  const result = await pool.query(
+    `
+    UPDATE users
+    SET 
+      is_deleted = true,
+      deleted_at = $1
+      WHERE 
+      id = $2
+      `,
+      [new Date(),id]
+  )
+  return result.rows[0] ?? null;
+}
+
 export default {
   create,
   findByEmail,
