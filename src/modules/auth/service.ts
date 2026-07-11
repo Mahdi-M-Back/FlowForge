@@ -48,14 +48,14 @@ async function refreshToken(refreshToken: string) {
   return tokens;
 }
 
-async function update(data:object) {
-  const updatedUser = await repository.update(data);
+async function update(name:string, userId:string) {
+  const updatedUser = await repository.update({ name, id: userId });
   if (!updatedUser) {
     return false;
   }
   return updatedUser;
-
 }
+
 
 export default {
   create,
