@@ -104,13 +104,14 @@ async function deleteMe(id:string){
     UPDATE users
     SET 
       is_deleted = true,
-      deleted_at = $1
+      deleted_at = $1,
+      refresh_token = null
       WHERE 
       id = $2
       `,
       [new Date(),id]
   )
-  return result.rows[0] ?? null;
+  return true ?? null;
 }
 
 export default {
@@ -120,4 +121,5 @@ export default {
   updateRefreshToken,
   update,
   getMe,
+  deleteMe,
 };

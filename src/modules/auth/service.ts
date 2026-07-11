@@ -67,7 +67,7 @@ async function deleteMe(userId: string) {
   if (!deleteUser) {
     return false;
   }
-  return deleteUser;
+  return true;
 }
 
 export default {
