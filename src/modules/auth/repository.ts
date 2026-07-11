@@ -61,10 +61,26 @@ async function updateRefreshToken(userId: string, refreshToken: string) {
   return result.rows[0] ?? null;
 }
 
+async function update(data: { name: string; id: string }) {
+  const result = await pool.query(
+    `UPDATE users
+    SET name = $1
+    WHERE id = $2
+    RETURNING 
+    id,
+    name,
+    email
+    `,
+    [data.name, data.id],
+  );
+
+  return result.rows[0] ?? null;
+}
 
 export default {
   create,
   findByEmail,
   findByRefreshToken,
   updateRefreshToken,
+  update,
 };
