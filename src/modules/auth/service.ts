@@ -43,31 +43,38 @@ async function refreshToken(refreshToken: string) {
     return false;
   }
 
-  const tokens = await jwt.generateAccessTokens(user.id,refreshToken);
+  const tokens = await jwt.generateAccessTokens(user.id, refreshToken);
 
   return tokens;
 }
 
-async function update(name:string, userId:string) {
+async function update(name: string, userId: string) {
   const updatedUser = await repository.update({ name, id: userId });
   if (!updatedUser) {
     return false;
   }
   return updatedUser;
 }
-async function getMe(userId: string){
+async function getMe(userId: string) {
   const user = await repository.getMe(userId);
   if (!user) {
     return false;
   }
   return user;
 }
-
+async function deleteMe(userId: string) {
+  const deleteUser = await repository.deleteMe(userId);
+  if (!deleteUser) {
+    return false;
+  }
+  return deleteUser;
+}
 
 export default {
   create,
   login,
   refreshToken,
   update,
-  getMe
+  getMe,
+  deleteMe,
 };

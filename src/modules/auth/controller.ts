@@ -109,6 +109,5 @@ export async function deleteMe(req: Request, res: Response) {
 
   return res.status(200).json({
     status: "Success",
-    data: deleted,
   });
 }
