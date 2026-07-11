@@ -69,7 +69,7 @@ export async function refreshToken(req: Request, res: Response) {
 }
 
 export async function updateMe(req:Request,res:Response) {
-  const update = await service.update(req.body.name);
+  const update = await service.update(req.body.name,req.userId);
   if (!update) {
     return res.status(404).json({
       status:"Fail",
@@ -81,5 +81,5 @@ export async function updateMe(req:Request,res:Response) {
     status:"Success",
     data:update
   })
-  
+
 }
