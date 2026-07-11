@@ -41,7 +41,7 @@ async function findByRefreshToken(refreshToken: string) {
     SELECT 
     id
     FROM users
-    WHERE refresh_token = $1
+    WHERE refresh_token = $1 AND is_deleted = false
     `,
     [refreshToken],
   );
@@ -64,16 +64,37 @@ async function updateRefreshToken(userId: string, refreshToken: string) {
 async function update(data: { name: string; id: string }) {
   const result = await pool.query(
     `UPDATE users
-    SET name = $1
-    WHERE id = $2
+    SET 
+      name = $1,
+      updated_at = $2
+    WHERE 
+      id = $3
+      AND
+      is_deleted = false
     RETURNING 
-    id,
     name,
     email
     `,
-    [data.name, data.id],
+    [data.name, new Date(), data.id],
   );
 
+  return result.rows[0] ?? null;
+}
+
+async function getMe(id: string) {
+  const result = await pool.query(
+    `
+    SELECT 
+      name,
+      email
+    FROM users
+    WHERE 
+      is_deleted = false 
+      AND 
+      id = $1
+    `,
+    [id],
+  );
   return result.rows[0] ?? null;
 }
 
