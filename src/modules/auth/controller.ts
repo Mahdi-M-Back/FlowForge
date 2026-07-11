@@ -67,3 +67,19 @@ export async function refreshToken(req: Request, res: Response) {
     data: tokens,
   });
 }
+
+export async function updateMe(req:Request,res:Response) {
+  const update = await service.update(req.body.name);
+  if (!update) {
+    return res.status(404).json({
+      status:"Fail",
+      data:"The updated going to fail. Try again later.!"
+    })
+  }
+
+  return res.status(201).json({
+    status:"Success",
+    data:update
+  })
+  
+}
