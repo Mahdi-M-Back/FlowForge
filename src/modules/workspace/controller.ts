@@ -1,8 +1,6 @@
 import type { Request, Response } from "express";
 import service from "./service.js";
 
-
-
 export async function createWorkspace(req: Request, res: Response) {
   const workspace = await service.createWorkspace(req.body, req.userId);
   if (!workspace) {
@@ -10,9 +8,23 @@ export async function createWorkspace(req: Request, res: Response) {
       status: "Fail",
       data: "The workspace creation going to fail. Try again later.!",
     });
-  } 
+  }
   return res.status(201).json({
     status: "Success",
     data: workspace,
+  });
+}
+
+export async function getAllWorkspaces(req: Request, res: Response) {
+  const workspaces = await service.getAllWorkspaces();
+  if (!workspaces) {
+    return res.status(404).json({
+      status: "Fail",
+      data: "No workspaces found.!",
+    });
+  }
+  return res.status(200).json({
+    status: "Success",
+    data: workspaces,
   });
 }
