@@ -6,7 +6,7 @@ const router = Router();
 router.use(jwt.protect)
 router
   .route("/")
-  .post(controller.createWorkspace);
+  .post(controller.createWorkspace).get(jwt.restrictTo("admin","owner"), controller.getAllWorkspaces);
 
 
 
