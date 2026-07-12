@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { env } from "./env.js";
+import authRepo from"@/modules/auth/repository.js"
 
 const accessToken = (userId: string) => {
   const expiresIn = env.jwt.accessTokenExpiresIn;
@@ -36,8 +37,11 @@ function generateAccessTokens(userId: string, refreshToken: string) {
   }
 }
 
-function protect(req: any, res: any, next: any) {
-  if (!req.headers.authorization || !req.headers.authorization.startsWith("Bearer")) {
+async function protect(req: any, res: any, next: any) {
+  if (
+    !req.headers.authorization ||
+    !req.headers.authorization.startsWith("Bearer")
+  ) {
     return res.status(401).json({
       status: "faild",
       data: "Unauthorized access.",
@@ -46,20 +50,29 @@ function protect(req: any, res: any, next: any) {
   let decoded: any;
   const token = req.headers.authorization.split(" ")[1];
   try {
-    decoded = jwt.verify(token, env.jwt.accessTokenSecret) ;
+    decoded = await jwt.verify(token, env.jwt.accessTokenSecret);
   } catch (error) {
     return res.status(401).json({
       status: "faild",
       data: "You are not logged in. Please log in to get access.",
     });
   }
-  req.userId = decoded.userId;
+  const currentuser = await authRepo.findById(decoded.userId);
+  if (!currentuser) {
+    return res.status(404).json({
+      status: "faild",
+      data: "User not found.",
+    }); 
+  }
+    
+  req.user = currentuser;
+  console.log("user role:", currentuser.role);
   next();
 }
 
 function restrictTo(...roles: string[]) {
   return (req: any, res: any, next: any) => {
-    if (!roles.includes(req.userRole)) {
+    if (!roles.includes(req.user.role)) {
       return res.status(403).json({
         status: "faild",
         data: "You are not authorized to perform this action.",
