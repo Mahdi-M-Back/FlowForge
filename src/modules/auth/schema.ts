@@ -29,9 +29,7 @@ export const updateMe = z.object({
     .trim()
     .min(2, "Name must be at least 2 characters.")
     .max(100, "Name must be at most 100 characters."),
-
 });
-
 
 export type RegisterDto = z.infer<typeof registerSchema>;
 export type LoginDto = z.infer<typeof loginSchema>;

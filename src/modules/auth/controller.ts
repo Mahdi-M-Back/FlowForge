@@ -1,7 +1,5 @@
 import type { Request, Response } from "express";
-
 import service from "./service.js";
-import { any } from "zod";
 
 export async function signup(req: Request, res: Response) {
   const user = await service.create(req.body);
