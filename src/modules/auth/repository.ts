@@ -114,6 +114,17 @@ async function deleteMe(id:string){
   return true ?? null;
 }
 
+async function findById(id:string){
+  const result = await pool.query(
+    `
+    SELECT * FROM users
+    WHERE id = $1
+    `,
+    [id]
+  )
+  return result.rows[0] ?? null
+}
+
 export default {
   create,
   findByEmail,
@@ -122,4 +133,5 @@ export default {
   update,
   getMe,
   deleteMe,
+  findById,
 };
