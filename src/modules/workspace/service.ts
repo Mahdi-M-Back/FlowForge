@@ -6,7 +6,12 @@ async function createWorkspace(data: WorkspaceDto, userId: string) {
   return result;
 }
 
+async function getAllWorkspaces() {
+  const result = await repository.getAllWorkspaces();
+  return result;
+}
 
 export default {
   createWorkspace,
+  getAllWorkspaces,
 }
