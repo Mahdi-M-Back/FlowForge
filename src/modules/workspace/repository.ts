@@ -18,6 +18,21 @@ async function createWorkspace(data:any , id:string) {
   return result.rows[0] ?? null;
 }
 
+async function getAllWorkspaces() {
+  const result = await pool.query(
+    `
+    SELECT
+    id,
+    name,
+    description,
+    owner_id
+    FROM workspaces
+    `,
+  );
+  return result.rows ?? null;
+} 
+
 export default {
   createWorkspace,
+  getAllWorkspaces
 }
