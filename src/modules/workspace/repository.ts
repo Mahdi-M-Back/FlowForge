@@ -1,6 +1,6 @@
 import pool from "@/config/database.js";
 
-async function createWorkspace(data:any , id:string) {
+async function createWorkspace(data: any, id: string) {
   const result = await pool.query(
     `
     INSERT INTO workspaces(name,owner_id,created_at,description)
@@ -30,9 +30,22 @@ async function getAllWorkspaces() {
     `,
   );
   return result.rows ?? null;
-} 
+}
+
+async function getOne(id:string) {
+  const result = await pool.query(
+    `
+    SELECT name, owner_id FROM workspaces
+    WHERE id = $1::uuid;
+    `,
+    [id]
+  )
+  return result.rows[0] ?? null
+  
+}
 
 export default {
   createWorkspace,
-  getAllWorkspaces
-}
+  getAllWorkspaces,
+  getOne,
+};
