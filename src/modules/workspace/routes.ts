@@ -8,6 +8,7 @@ router
   .route("/")
   .post(controller.createWorkspace).get(jwt.restrictTo("admin","owner"), controller.getAllWorkspaces);
 
+router.route('/:id').get(controller.getOne)
 
 
 
