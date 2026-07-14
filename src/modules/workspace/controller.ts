@@ -43,3 +43,18 @@ export async function getOne(req: Request, res: Response) {
     data: workspace,
   });
 }
+
+export async function updateWorkspace(req: Request, res: Response) {
+  const workspace = await service.update(req.body , req.params.id)
+  if (!workspace) {
+    return res.status(404).json({
+      status: "Fail",
+      data: "No workspace found.!",
+    });
+  }
+  return res.status(200).json({
+    status: "Success",
+    data: workspace,
+  });
+
+}  
