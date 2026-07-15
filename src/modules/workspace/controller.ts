@@ -3,7 +3,7 @@ import service from "./service.js";
 
 export async function createWorkspace(req: Request, res: Response) {
   const workspace = await service.createWorkspace(req.body, req.user.id);
-  
+
   if (!workspace) {
     return res.status(400).json({
       status: "Fail",
@@ -56,5 +56,17 @@ export async function updateWorkspace(req: Request, res: Response) {
     status: "Success",
     data: workspace,
   });
+}
 
-}  
+export async function deleteWorkspace(req: Request, res: Response) {
+  const workspase = await service.deleteWorkspace(req.params.id,req.user.id);
+  if (!workspase) {
+    return res.status(404).json({
+      status: "Fail",
+      data: "No workspace found.!",
+    });
+  }
+  return res.status(200).json({
+    status: "Success",
+  });
+}
