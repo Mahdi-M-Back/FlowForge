@@ -44,8 +44,23 @@ async function getOne(id:string) {
   
 }
 
+async function softDelete(id:string){
+  const result = await pool.query(
+    `
+    UPDATE workspaces
+    SET 
+      is_deleted = true,
+      deleted_at = $1
+    WHERE id = $2
+    RETURNING owner_id
+    `,[new Date(),id]
+  );
+  return result.rows[0] ?? null
+}
+
 export default {
   createWorkspace,
   getAllWorkspaces,
   getOne,
+  softDelete,
 };
