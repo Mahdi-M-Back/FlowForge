@@ -19,8 +19,17 @@ async function getOne(params: string, owner_id: string) {
   return result.name;
 }
 
+async function deleteWorkspace(params: string, owner_id: string) {
+  const result = await repository.softDelete(params);
+  if (!(owner_id == result.owner_id)) {
+    return false;
+  }
+  return true;
+}
+
 export default {
   createWorkspace,
   getAllWorkspaces,
   getOne,
+  deleteWorkspace,
 };
