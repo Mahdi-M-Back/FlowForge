@@ -1,8 +1,12 @@
 import repository from "./repository.js";
-import type { WorkspaceDto } from "./schema.js";
+import { workspaceSchema } from "./schema.js";
 
-async function createWorkspace(data: WorkspaceDto, userId: string) {
-  const result = await repository.createWorkspace(data, userId);
+async function createWorkspace(data: unknown, userId: string) {
+  const parsedData = workspaceSchema.safeParse(data);
+  if (!parsedData.success) {
+    throw new Error("Invalid workspace data");
+  }
+  const result = await repository.createWorkspace(parsedData.data, userId);
   return result;
 }
 
@@ -22,6 +26,18 @@ async function getOne(params: string, owner_id: string) {
   return result.name;
 }
 
+async function update(data: unknown, params: string) {
+  const parsedData = workspaceSchema.safeParse(data);
+  if (!parsedData.success) {
+    throw new Error("Invalid workspace data");
+  }
+  const result = await repository.update(parsedData.data, params);
+  if (!result) {
+    return false;
+  }
+  return result;
+}
+
 async function deleteWorkspace(params: string, owner_id: string) {
   const result = await repository.getOne(params);
   if (!(owner_id === result.owner_id)) {
@@ -35,5 +51,6 @@ export default {
   createWorkspace,
   getAllWorkspaces,
   getOne,
+  update,
   deleteWorkspace,
 };

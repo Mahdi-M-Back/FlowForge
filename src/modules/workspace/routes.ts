@@ -3,14 +3,16 @@ import jwt from "@/config/jwt.js";
 import * as controller from "./controller.js";
 
 const router = Router();
-router.use(jwt.protect)
+router.use(jwt.protect);
 router
   .route("/")
-  .post(controller.createWorkspace).get(controller.getAllWorkspaces);
+  .post(controller.createWorkspace)
+  .get(controller.getAllWorkspaces);
 
-router.route('/:id').get(controller.getOne).patch(controller.updateWorkspace).delete(controller.deleteWorkspace)
-
-
-
+router
+  .route("/:id")
+  .get(controller.getOne)
+  .patch(controller.updateWorkspace)
+  .delete(controller.deleteWorkspace);
 
 export default router;
