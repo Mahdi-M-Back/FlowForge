@@ -56,6 +56,7 @@ async function update(data: WorkspaceDto, id: string) {
     WHERE id = $3
     RETURNING id, name, description
     `,
+    [data.name, data.description, id],
   );
   return result.rows[0] ?? null;
 }
