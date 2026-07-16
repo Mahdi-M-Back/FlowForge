@@ -45,7 +45,7 @@ export async function getOne(req: Request, res: Response) {
 }
 
 export async function updateWorkspace(req: Request, res: Response) {
-  const workspace = await service.update(req.body, req.params.id);
+  const workspace = await service.update(req.body, req.params.id, req.user.id);
   if (!workspace) {
     return res.status(404).json({
       status: "Fail",

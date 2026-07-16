@@ -1,5 +1,5 @@
 import repository from "./repository.js";
-import { workspaceSchema,updateWorkspaceSchema } from "./schema.js";
+import { workspaceSchema, updateWorkspaceSchema } from "./schema.js";
 
 async function createWorkspace(data: unknown, userId: string) {
   const parsedData = workspaceSchema.safeParse(data);
@@ -29,12 +29,12 @@ async function getOne(params: string, owner_id: string) {
   return result.name;
 }
 
-async function update(data: unknown, params: string) {
+async function update(data: unknown, params: string, userId: string) {
   const parsedData = updateWorkspaceSchema.safeParse(data);
   if (!parsedData.success) {
     throw new Error("Invalid workspace data");
   }
-  const result = await repository.update(parsedData.data, params);
+  const result = await repository.update(parsedData.data, params, userId);
   if (!result) {
     return false;
   }

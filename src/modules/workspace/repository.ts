@@ -46,17 +46,17 @@ async function getOne(id: string) {
   return result.rows[0] ?? null;
 }
 
-async function update(data: UpdateWorkspaceDto, id: string) {
+async function update(data: UpdateWorkspaceDto, id: string, userId: string) {
   const result = await pool.query(
     `
     UPDATE workspaces
     SET 
       name = $1,
       description = $2
-    WHERE id = $3
+    WHERE id = $3 AND owner_id = $4
     RETURNING id, name, description
     `,
-    [data.name, data.description, id],
+    [data.name, data.description, id, userId],
   );
   return result.rows[0] ?? null;
 }
