@@ -1,6 +1,7 @@
 import pool from "@/config/database.js";
+import type { WorkspaceDto } from "./schema.js";
 
-async function createWorkspace(data: any, id: string) {
+async function createWorkspace(data: WorkspaceDto, id: string) {
   const result = await pool.query(
     `
     INSERT INTO workspaces(name,owner_id,created_at,description)
@@ -18,7 +19,7 @@ async function createWorkspace(data: any, id: string) {
   return result.rows[0] ?? null;
 }
 
-async function getAllWorkspaces() {
+async function getAllWorkspaces(id: string) {
   const result = await pool.query(
     `
     SELECT
@@ -27,7 +28,8 @@ async function getAllWorkspaces() {
     description,
     owner_id
     FROM workspaces
-    `,
+    ٌWHERE owner_id = $1 AND is_deleted = false
+    `,[id]
   );
   return result.rows ?? null;
 }

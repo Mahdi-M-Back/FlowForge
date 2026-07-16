@@ -6,13 +6,16 @@ async function createWorkspace(data: WorkspaceDto, userId: string) {
   return result;
 }
 
-async function getAllWorkspaces() {
-  const result = await repository.getAllWorkspaces();
+async function getAllWorkspaces(userId: string) {
+  const result = await repository.getAllWorkspaces(userId);
   return result;
 }
 
 async function getOne(params: string, owner_id: string) {
   const result = await repository.getOne(params);
+  if (!result) {
+    return false;
+  }
   if (!(owner_id === result.owner_id)) {
     return false;
   }

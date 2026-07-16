@@ -17,7 +17,7 @@ export async function createWorkspace(req: Request, res: Response) {
 }
 
 export async function getAllWorkspaces(req: Request, res: Response) {
-  const workspaces = await service.getAllWorkspaces();
+  const workspaces = await service.getAllWorkspaces(req.user.id);
   if (!workspaces) {
     return res.status(404).json({
       status: "Fail",
