@@ -1,5 +1,5 @@
 import pool from "@/config/database.js";
-import type { WorkspaceDto } from "./schema.js";
+import type { WorkspaceDto, UpdateWorkspaceDto } from "./schema.js";
 
 async function createWorkspace(data: WorkspaceDto, id: string) {
   const result = await pool.query(
@@ -28,7 +28,7 @@ async function getAllWorkspaces(id: string) {
     description,
     owner_id
     FROM workspaces
-    ٌWHERE owner_id = $1 AND is_deleted = false
+    WHERE owner_id = $1 AND is_deleted = false
     `,
     [id],
   );
@@ -46,7 +46,7 @@ async function getOne(id: string) {
   return result.rows[0] ?? null;
 }
 
-async function update(data: WorkspaceDto, id: string) {
+async function update(data: UpdateWorkspaceDto, id: string) {
   const result = await pool.query(
     `
     UPDATE workspaces
@@ -69,6 +69,7 @@ async function softDelete(id: string) {
       is_deleted = true,
       deleted_at = $1
     WHERE id = $2
+    RETURNING name
     `,
     [new Date(), id],
   );

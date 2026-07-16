@@ -13,4 +13,11 @@ export const workspaceSchema = z.object({
     .optional(),
 });
 
+export const updateWorkspaceSchema = workspaceSchema
+  .partial()
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field must be provided.",
+  });
+
+export type UpdateWorkspaceDto = z.infer<typeof updateWorkspaceSchema>;
 export type WorkspaceDto = z.infer<typeof workspaceSchema>;
