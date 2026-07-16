@@ -20,10 +20,11 @@ async function getOne(params: string, owner_id: string) {
 }
 
 async function deleteWorkspace(params: string, owner_id: string) {
-  const result = await repository.softDelete(params);
-  if (!(owner_id == result.owner_id)) {
+  const result = await repository.getOne(params);
+  if (!(owner_id === result.owner_id)) {
     return false;
   }
+  await repository.softDelete(params);
   return true;
 }
 
