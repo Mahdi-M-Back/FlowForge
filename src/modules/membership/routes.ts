@@ -5,4 +5,6 @@ const router = Router()
 
 router
   .route("/:id")
-  .patch(controller.updateMembership);
+  .patch(controller.updateMembership)
+  .delete(controller.deleteMembership)
+  
