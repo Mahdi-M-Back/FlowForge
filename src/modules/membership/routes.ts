@@ -3,6 +3,8 @@ import * as controller from "./controller.js";
 
 const router = Router();
 
+router.route("/").post(controller.createMembership);
+
 router
   .route("/:id")
   .get(controller.getMembership)
