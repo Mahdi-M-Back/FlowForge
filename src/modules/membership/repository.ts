@@ -15,3 +15,7 @@ async function createMembership(workspace_id: string, body: object) {
   );
   return result.rows[0] ?? null;
 }
+
+export default {
+  createMembership,
+};

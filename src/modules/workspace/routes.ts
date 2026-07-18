@@ -1,8 +1,10 @@
 import { Router } from "express";
 import jwt from "@/config/jwt.js";
 import * as controller from "./controller.js";
+import membershipRouter from "@/modules/membership/routes.js"
 
 const router = Router();
+router.use('/:id/memberships',membershipRouter)
 router.use(jwt.protect);
 router
   .route("/")

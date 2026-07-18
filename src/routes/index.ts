@@ -1,6 +1,7 @@
 import { Router } from "express";
 import authRouter from "@/modules/auth/routes.js";
 import workspaceRouter from "@/modules/workspace/routes.js";
+import membershipRouter from "@/modules/membership/routes.js"
 
 const router = Router();
 
@@ -11,6 +12,7 @@ router.get("/health", (_, res) => {
 });
 
 router.use("/auth", authRouter);
-router.use("/workspace", workspaceRouter);
+router.use("/workspaces", workspaceRouter);
+router.use("/memberships", membershipRouter);
 
 export default router;
