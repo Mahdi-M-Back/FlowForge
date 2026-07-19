@@ -16,6 +16,18 @@ async function createMembership(workspace_id: string, body: object) {
   return result.rows[0] ?? null;
 }
 
+async function getAll(id: string) {
+  const result = await pool.query(
+    `
+    SELECT user_id, role FROM membership
+    WHERE workspace_id = $1 AND is_deleted = false
+    `,
+    [id],
+  );
+  return result.rows[0] ?? null;
+}
+
 export default {
   createMembership,
+  getAll,
 };
