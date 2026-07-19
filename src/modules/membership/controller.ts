@@ -65,3 +65,18 @@ export async function updateMembership(req: Request, res: Response) {
     data: result,
   });
 }
+
+export async function deleteMembership(req: Request, res: Response) {
+  const result = await service.deleteMembership(req.params.userId);
+
+  if (!result) {
+    return res.status(404).json({
+      status: "Faild",
+      data: "Can not find Membership",
+    });
+  }
+  return res.status(200).json({
+    status: "Success",
+    data: result,
+  });
+}
