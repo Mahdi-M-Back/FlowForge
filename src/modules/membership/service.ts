@@ -19,8 +19,16 @@ async function getAll(id: string) {
   return result;
 }
 
-async function getMembership(id:string) {
+async function getMembership(id: string) {
   const result = await repository.getById(id);
+  if (!result) {
+    return false;
+  }
+  return result;
+}
+
+async function updateMembership(id: string, role: string) {
+  const result = await repository.updateRole(id, role);
   if (!result) {
     return false;
   }
@@ -31,4 +39,5 @@ export default {
   createMembership,
   getAll,
   getMembership,
+  updateMembership,
 };
