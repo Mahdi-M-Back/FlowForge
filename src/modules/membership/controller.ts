@@ -32,3 +32,17 @@ export async function getAllMembership(req: Request, res: Response) {
     data: result,
   });
 }
+
+export async function getMembership(req: Request, res: Response) {
+  const result = await service.getMembership(req.userId);
+  if (!result) {
+    return res.status(404).json({
+      status: "Faild",
+      data: "Can not find Membership",
+    });
+  }
+  return res.status(200).json({
+    status: "Success",
+    data: result,
+  });
+}
