@@ -35,9 +35,18 @@ async function updateMembership(id: string, role: string) {
   return result;
 }
 
+async function deleteMembership(id: string) {
+  const result = await repository.deleteMembership(id);
+  if (!result) {
+    return false;
+  }
+  return true;
+}
+
 export default {
   createMembership,
   getAll,
   getMembership,
   updateMembership,
+  deleteMembership,
 };
