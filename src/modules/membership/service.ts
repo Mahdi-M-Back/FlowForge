@@ -11,6 +11,15 @@ async function createMembership(workspace_id: string, body: object) {
   return createMembership;
 }
 
+async function getAll(id: string) {
+  const result = await repository.getAll(id);
+  if (!result) {
+    return false;
+  }
+  return result;
+}
+
 export default {
   createMembership,
+  getAll,
 };
