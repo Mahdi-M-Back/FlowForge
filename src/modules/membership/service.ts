@@ -19,7 +19,16 @@ async function getAll(id: string) {
   return result;
 }
 
+async function getMembership(id:string) {
+  const result = await repository.getById(id);
+  if (!result) {
+    return false;
+  }
+  return result;
+}
+
 export default {
   createMembership,
   getAll,
+  getMembership,
 };
