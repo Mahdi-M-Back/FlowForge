@@ -27,7 +27,19 @@ async function getAll(id: string) {
   return result.rows[0] ?? null;
 }
 
+async function getById(id:string){
+  const result = await pool.query(
+    `
+    SELECT role FROM membership
+    WHERE user_id = $1 AND is_deleted = false
+    `,
+    [id],
+  );
+  return result.rows[0] ?? null
+}
+
 export default {
   createMembership,
   getAll,
+  getById,
 };
