@@ -27,7 +27,7 @@ async function getAll(id: string) {
   return result.rows[0] ?? null;
 }
 
-async function getById(id:string){
+async function getById(id: string) {
   const result = await pool.query(
     `
     SELECT role FROM membership
@@ -35,11 +35,26 @@ async function getById(id:string){
     `,
     [id],
   );
-  return result.rows[0] ?? null
+  return result.rows[0] ?? null;
+}
+
+async function updateRole(id: string, role: string) {
+  const result = await pool.query(
+    `
+    UPDATE membership
+    SET
+      role = $1
+    WHERE user_id = $2
+    RETURNING id, role
+    `,
+    [role, id],
+  );
+  return result.rows[0] ?? null;
 }
 
 export default {
   createMembership,
   getAll,
   getById,
+  updateRole,
 };

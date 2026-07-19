@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { env } from "./env.js";
-import authRepo from"@/modules/auth/repository.js"
+import authRepo from "@/modules/auth/repository.js";
 
 const accessToken = (userId: string) => {
   const expiresIn = env.jwt.accessTokenExpiresIn;
@@ -62,11 +62,10 @@ async function protect(req: any, res: any, next: any) {
     return res.status(404).json({
       status: "faild",
       data: "User not found.",
-    }); 
+    });
   }
-    
+
   req.user = currentuser;
-  console.log("user role:", currentuser.role);
   next();
 }
 
