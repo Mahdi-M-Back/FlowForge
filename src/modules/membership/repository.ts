@@ -19,7 +19,7 @@ async function createMembership(workspace_id: string, body: object) {
 async function getAll(id: string) {
   const result = await pool.query(
     `
-    SELECT user_id, role FROM membership
+    SELECT id, user_id, role FROM membership
     WHERE workspace_id = $1 AND is_deleted = false
     `,
     [id],
@@ -30,7 +30,7 @@ async function getAll(id: string) {
 async function getById(id: string) {
   const result = await pool.query(
     `
-    SELECT role FROM membership
+    SELECT id, role FROM membership
     WHERE id = $1 AND is_deleted = false
     `,
     [id],
@@ -60,7 +60,7 @@ async function deleteMembership(id: string) {
       is_deleted = true,
       deleted_at = $1
     WHERE id = $2
-    RETURNING name
+    RETURNING id
     `,
     [new Date(), id],
   );
