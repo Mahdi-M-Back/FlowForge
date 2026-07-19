@@ -31,7 +31,7 @@ async function getById(id: string) {
   const result = await pool.query(
     `
     SELECT role FROM membership
-    WHERE user_id = $1 AND is_deleted = false
+    WHERE id = $1 AND is_deleted = false
     `,
     [id],
   );
@@ -44,10 +44,25 @@ async function updateRole(id: string, role: string) {
     UPDATE membership
     SET
       role = $1
-    WHERE user_id = $2
+    WHERE id = $2
     RETURNING id, role
     `,
     [role, id],
+  );
+  return result.rows[0] ?? null;
+}
+
+async function deleteMembership(id: string) {
+  const result = await pool.query(
+    `
+    UPDATE membership
+    SET
+      is_deleted = true,
+      deleted_at = $1
+    WHERE id = $2
+    RETURNING name
+    `,
+    [new Date(), id],
   );
   return result.rows[0] ?? null;
 }
@@ -57,4 +72,5 @@ export default {
   getAll,
   getById,
   updateRole,
+  deleteMembership,
 };
