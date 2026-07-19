@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import service from "./service.js";
+import { log } from "console";
 
 export async function createMembership(req: Request, res: Response) {
   const createMembership = await service.createMembership(
@@ -34,7 +35,25 @@ export async function getAllMembership(req: Request, res: Response) {
 }
 
 export async function getMembership(req: Request, res: Response) {
-  const result = await service.getMembership(req.userId);
+  const result = await service.getMembership(req.params.userId);
+  if (!result) {
+    return res.status(404).json({
+      status: "Faild",
+      data: "Can not find Membership",
+    });
+  }
+  return res.status(200).json({
+    status: "Success",
+    data: result,
+  });
+}
+
+export async function updateMembership(req: Request, res: Response) {
+  const result = await service.updateMembership(
+    req.params.userId,
+    req.body.role,
+  );
+
   if (!result) {
     return res.status(404).json({
       status: "Faild",
