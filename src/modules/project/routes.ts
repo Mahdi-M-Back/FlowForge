@@ -6,6 +6,6 @@ const router = Router({ mergeParams: true });
 
 router.use(jwt.protect);
 
-router.route("/").post(controller.createProject);
+router.route("/").post(controller.createProject).get(controller.getAllProject);
 
 export default router;
