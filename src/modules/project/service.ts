@@ -17,7 +17,16 @@ async function porjects(workspaceId: string) {
   return porjects;
 }
 
+async function porject(workspaceId: string,id:string) {
+  const porject = await repository.getOne(workspaceId,id);
+  if (!porject) {
+    return false;
+  }
+  return porject;
+}
+
 export default {
   createProject,
   porjects,
+  porject,
 };
