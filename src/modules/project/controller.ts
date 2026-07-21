@@ -28,3 +28,17 @@ export async function getAllProject(req: Request, res: Response) {
     data: porjects,
   });
 }
+
+export async function getOne(req: Request, res: Response) {
+  const porject = await service.porject(req.params.wid,req.params.id);
+  if (!porject) {
+    return res.status(400).json({
+      status: "Faild",
+      data: "Have a problem.! please try again later:)",
+    });
+  }
+  return res.status(201).json({
+    status: "Success",
+    data: porject,
+  });
+}
