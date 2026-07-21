@@ -16,6 +16,22 @@ async function create(body: object, workspaceId: string) {
   return result.rows[0] ?? null;
 }
 
+async function getAll(workspaceId: string) {
+  const result = await pool.query(
+    `
+    SELECT
+    id,
+    name,
+    description
+    FROM projects
+    WHERE workspace_id = $1
+    `,
+    [workspaceId],
+  );
+  return result.rows[0] ?? null;
+}
+
 export default {
   create,
+  getAll,
 };
