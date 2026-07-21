@@ -24,9 +24,23 @@ async function getAll(workspaceId: string) {
     name,
     description
     FROM projects
-    WHERE workspace_id = $1
+    WHERE workspace_id = $1 AND is_deleted = false
     `,
     [workspaceId],
+  );
+  return result.rows[0] ?? null;
+}
+
+async function getOne(workspaceId: string, id: string) {
+  const result = await pool.query(
+    `
+    SELECT
+    name,
+    description
+    FROM projects
+    WHERE workspace_id = $1 AND id = $2 AND is_deleted = false
+    `,
+    [workspaceId, id],
   );
   return result.rows[0] ?? null;
 }
@@ -34,4 +48,5 @@ async function getAll(workspaceId: string) {
 export default {
   create,
   getAll,
+  getOne,
 };
