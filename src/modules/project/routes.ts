@@ -8,4 +8,6 @@ router.use(jwt.protect);
 
 router.route("/").post(controller.createProject).get(controller.getAllProject);
 
+router.route("/:id").get(controller.getOne);
+
 export default router;
