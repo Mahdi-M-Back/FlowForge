@@ -9,6 +9,15 @@ async function createProject(body: object, workspaceId: string) {
   return createProject;
 }
 
+async function porjects(workspaceId: string) {
+  const porjects = await repository.getAll(workspaceId);
+  if (!porjects) {
+    return false;
+  }
+  return porjects;
+}
+
 export default {
   createProject,
+  porjects,
 };
